@@ -1,0 +1,40 @@
+{
+  "format_version": "1.14.0",
+  "sound_definitions": {
+    "raid.horn": {
+      "category": "neutral",
+      // Double the valid raid radius of 96
+      "max_distance": 192.0,
+      "sounds": [
+        {
+          "name": "sounds/event/raid/raidhorn_01",
+          "load_on_low_memory": true,
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/event/raid/raidhorn_02",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/event/raid/raidhorn_03",
+          "volume": 1.0
+        },
+        {
+          "name": "sounds/event/raid/raidhorn_04",
+          "volume": 1.0
+        }
+      ]
+    },
+    "mob.phantom.flap": {
+      "category": "hostile",
+      "sounds": [
+        "sounds/mob/phantom/flap1",
+        "sounds/mob/phantom/flap2",
+        "sounds/mob/phantom/flap3",
+        "sounds/mob/phantom/flap4",
+        "sounds/mob/phantom/flap5",
+        "sounds/mob/phantom/flap6"
+      ]
+    }
+  }
+}

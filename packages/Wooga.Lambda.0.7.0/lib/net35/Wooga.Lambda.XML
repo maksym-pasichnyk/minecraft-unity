@@ -1,0 +1,403 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Wooga.Lambda</name>
+    </assembly>
+    <members>
+        <member name="T:Wooga.Lambda.Control.Concurrent.Agent`2">
+            <summary>
+            Actor/Agent implementation similar to Control.Async.MailboxProcessor in F#
+            </summary>
+            <typeparam name="TMessage">The type of the message consumed by the agent.</typeparam>
+            <typeparam name="TReply">The type of the response produced by the agent.</typeparam></member>
+        <member name="P:Wooga.Lambda.Control.Concurrent.Agent`2.IsRunning">
+            <summary>
+            Gets a value indicating whether this agent is running.
+            </summary>
+            <value>
+            <c>true</c> if this agent is running; otherwise, <c>false</c>.
+            </value></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Agent`2.Start``1(``0,System.Func{Wooga.Lambda.Control.Concurrent.Agent{`0,`1},``0,``0})">
+            <summary>
+            Creates and starts an agent.
+            </summary>
+            <typeparam name="TState">The type of the state.</typeparam>
+            <param name="state">The initial state.</param>
+            <param name="body">The body to be executed.</param>
+            <returns>The agent.</returns></member>
+        <!--FIXME: Invalid documentation markup was found for member M:Wooga.Lambda.Control.Concurrent.Agent`2.StartAsync``1(``0,System.Func{Wooga.Lambda.Control.Concurrent.Agent{`0,`1},``0,``0})-->
+        <member name="M:Wooga.Lambda.Control.Concurrent.Agent`2.CancellationRequested">
+            <summary>
+            Indicates if the agent should cancel and stop
+            </summary></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Agent`2.Cancel">
+            <summary>
+            Cancels this agent.
+            </summary></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Agent`2.CancelAsync">
+            <summary>
+            Cancels this agent.
+            </summary>
+            <returns>Async computation that cancels the agent.</returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Agent`2.Post(`0)">
+            <summary>
+            Posts a message to the message queue of the Agent, asynchronously.
+            </summary>
+            <param name="msg">The message to post.</param></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Agent`2.PostAndReply(System.Func{Wooga.Lambda.Control.Concurrent.AsyncReplyChannel{`1},`0})">
+            <summary>
+            Posts a message to an agent and await a reply on the channel, synchronously.
+            </summary>
+            <param name="f">The lambda providing the message.</param>
+            <returns>The agents reply</returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Agent`2.PostAndAsyncReply(System.Func{Wooga.Lambda.Control.Concurrent.AsyncReplyChannel{`1},`0})">
+            <summary>
+            Posts a message to an agent and await a reply on the channel, asynchronously.
+            </summary>
+            <param name="f">The lambda providing the message.</param>
+            <returns>An async computation providing the agents reply.</returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Agent`2.Receive">
+            <summary>
+            Waits for a message. This will consume the first message in arrival order.
+            </summary>
+            <returns>An async computation providing a message.</returns></member>
+        <member name="T:Wooga.Lambda.Control.Concurrent.Async`1">
+            <summary>
+            A computation that can be run asynchronously
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns></member>
+        <member name="T:Wooga.Lambda.Control.Concurrent.AsyncReplyChannel`1">
+            <summary>
+            A reply channel for an asynchronous operation
+            </summary>
+            <typeparam name="T"></typeparam></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.Return``1(``0)">
+            <summary>
+            Constructs an asynchronous computation returning f
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="f"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.Return``1(System.Func{``0})">
+            <summary>
+            Constructs an asynchronous computation returning the result of f
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="f"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.Bind``2(Wooga.Lambda.Control.Concurrent.Async{``0},System.Func{``0,Wooga.Lambda.Control.Concurrent.Async{``1}})">
+            <summary>
+            Applies f to the result of m
+            </summary>
+            <typeparam name="TInput"></typeparam>
+            <typeparam name="TOutput"></typeparam>
+            <param name="m"></param>
+            <param name="f"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.Then``2(Wooga.Lambda.Control.Concurrent.Async{``0},Wooga.Lambda.Control.Concurrent.Async{``1})">
+            <summary>
+            Runs m then returns h
+            </summary>
+            <typeparam name="TInput"></typeparam>
+            <typeparam name="TOutput"></typeparam>
+            <param name="m"></param>
+            <param name="h"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.Map``2(Wooga.Lambda.Control.Concurrent.Async{``0},System.Func{``0,``1})">
+            <summary>
+            Applies f to the result of m
+            </summary>
+            <typeparam name="TInput"></typeparam>
+            <typeparam name="TOutput"></typeparam>
+            <param name="m"></param>
+            <param name="f"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.Ignore``1(Wooga.Lambda.Control.Concurrent.Async{``0})">
+            <summary>
+            Constructs an asynchronous computation that runs the given computation and ignores its result.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="m"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.Parallel``1(System.Collections.Generic.IEnumerable{Wooga.Lambda.Control.Concurrent.Async{``0}})">
+            <summary>
+            Creates an asynchronous computation that executes all the given asynchronous computations, initially queueing each as work items and using a fork/join pattern.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ms"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.RunSynchronously``1(Wooga.Lambda.Control.Concurrent.Async{``0})">
+            <summary>
+            Runs the provided asynchronous computation and awaits its result.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="m"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.Sleep(System.Int32)">
+            <summary>
+            Creates an asynchronous computation that will sleep for the given time.
+            </summary>
+            <param name="ms">The sleep duration in miliseconds</param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.Start``1(Wooga.Lambda.Control.Concurrent.Async{``0})">
+            <summary>
+            Starts the asynchronous computation in the thread pool. Do not await its result.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="m"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.StartAndReply``1(Wooga.Lambda.Control.Concurrent.Async{``0},System.Func{Wooga.Lambda.Control.Concurrent.AsyncReplyChannel{``0},Wooga.Lambda.Control.Concurrent.AsyncReplyChannel{``0}})">
+            <summary>
+            Starts the asynchronous computation in the thread pool. Await result on AsyncReplyChannel.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="m"></param>
+            <param name="f">The lambda providing the AsyncReplyChannel</param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.StartChild``1(Wooga.Lambda.Control.Concurrent.Async{``0})">
+            <summary>
+            Starts a child computation. This allows multiple asynchronous computations to be executed simultaneously.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="m"></param>
+            <returns>A new computation that waits for the input computation to finish.</returns></member>
+        <member name="M:Wooga.Lambda.Control.Concurrent.Async.Catch``1(Wooga.Lambda.Control.Concurrent.Async{``0})">
+            <summary>
+            When computation completes successfully returns Either.Success with the returned value, otherwise Either.Failure with the exception.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="m"></param>
+            <returns></returns></member>
+        <member name="T:Wooga.Lambda.Control.Concurrent.Consumer`2">
+            <summary>
+            A method that consumes a produced value asynchronously
+            </summary>
+            <typeparam name="TProduct">type of produced value</typeparam>
+            <typeparam name="TConsumed">type of consumed value</typeparam>
+            <param name="product">produced value</param>
+            <returns>Returns a maybe indicating success of consumption</returns></member>
+        <member name="T:Wooga.Lambda.Control.Concurrent.Producer`2">
+            <summary>
+            The producer provides a way to turn input into a product and handles the consumption of them
+            </summary>
+            <typeparam name="TInput"></typeparam>
+            <typeparam name="TProduct"></typeparam></member>
+        <member name="T:Wooga.Lambda.Control.Monad.Either`2">
+            <summary>
+            The Either type represents values with two possibilities: a value of type Either 'TSuccess,'TFailure is either Failure 'TFailure or Success 'TSuccess.
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+            <typeparam name="TFailure"></typeparam></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.Return``2(``0)">
+            <summary>
+            Constructs Either.Success with v
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <param name="v"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.Bind``3(Wooga.Lambda.Control.Monad.Either{``0,``1},System.Func{``0,Wooga.Lambda.Control.Monad.Either{``2,``1}})">
+            <summary>
+            When m is Either.Success it applies f to the success value, otherwise Either.Nothing
+            </summary>
+            <typeparam name="TSuccessInput"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <typeparam name="TSuccessOutput"></typeparam>
+            <param name="m"></param>
+            <param name="f"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.Then``3(Wooga.Lambda.Control.Monad.Either{``0,``1},Wooga.Lambda.Control.Monad.Either{``2,``1})">
+            <summary>
+            When m is Either.Success it returns n, otherwise Either.Nothing
+            </summary>
+            <typeparam name="TSuccessInput"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <typeparam name="TSuccessOutput"></typeparam>
+            <param name="m"></param>
+            <param name="h"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.Map``3(Wooga.Lambda.Control.Monad.Either{``0,``1},System.Func{``0,``2})">
+            <summary>
+            When m is Either.Success it applies f to the success value, otherwise Either.Nothing
+            </summary>
+            <typeparam name="TSuccessInput"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <typeparam name="TSuccessOutput"></typeparam>
+            <param name="m"></param>
+            <param name="f"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.Failure``2(``1)">
+            <summary>
+            Constructs Either.Failure with m
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <param name="m"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.Success``2(``0)">
+            <summary>
+            Constructs Either.Success with m
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <param name="m"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.IsSuccess``2(Wooga.Lambda.Control.Monad.Either{``0,``1})">
+            <summary>
+            True when m is Either.Success
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <param name="m"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.IsFailure``2(Wooga.Lambda.Control.Monad.Either{``0,``1})">
+            <summary>
+            True when m is Either.Failure
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <param name="m"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.From``3(Wooga.Lambda.Control.Monad.Either{``0,``1},System.Func{``0,``2},System.Func{``1,``2})">
+            <summary>
+            When m is Either.Success then applies fr to the success value, otherwise applies fl to the failure value
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <typeparam name="TResult"></typeparam>
+            <param name="m"></param>
+            <param name="fr"></param>
+            <param name="fl"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.FailureOr``2(Wooga.Lambda.Control.Monad.Either{``0,``1},``1)">
+            <summary>
+            When m is Either.Failure returns failure value, otherwise dflt
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <param name="m"></param>
+            <param name="dflt"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.FailureOr``2(Wooga.Lambda.Control.Monad.Either{``0,``1},System.Func{``1})">
+            <summary>
+            When m is Either.Failure returns failure value, otherwise result of dflt
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <param name="m"></param>
+            <param name="dflt"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.SuccessOr``2(Wooga.Lambda.Control.Monad.Either{``0,``1},``0)">
+            <summary>
+            When m is Either.Success returns success value, otherwise dflt
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <param name="m"></param>
+            <param name="dflt"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.SuccessOr``2(Wooga.Lambda.Control.Monad.Either{``0,``1},System.Func{``0})">
+            <summary>
+            When m is Either.Success returns success value, otherwise result of dflt
+            </summary>
+            <typeparam name="TSuccess"></typeparam>
+            <typeparam name="TFailure"></typeparam>
+            <param name="m"></param>
+            <param name="dflt"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Either.Catch``1(System.Func{``0})">
+            <summary>
+            When f does throw an excpetion returns Either.Failure with the exception, otherwise Either.Success with the result of f
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="f"></param>
+            <returns></returns></member>
+        <member name="T:Wooga.Lambda.Control.Monad.Maybe`1">
+            <summary>
+            The Maybe type encapsulates an optional value. A value of type Maybe 'T either contains a value of type 'T, or it is empty.
+            </summary>
+            <typeparam name="T"></typeparam></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Maybe.Return``1(``0)">
+            <summary>
+            When x is not null returns Maybe.Just with x, otherwise Maybe.Nothing
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="x"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Maybe.Bind``2(Wooga.Lambda.Control.Monad.Maybe{``0},System.Func{``0,Wooga.Lambda.Control.Monad.Maybe{``1}})">
+            <summary>
+            When m is Maybe.Just it applies f to the value, otherwise Maybe.Nothing
+            </summary>
+            <typeparam name="TInput"></typeparam>
+            <typeparam name="TOutput"></typeparam>
+            <param name="m"></param>
+            <param name="f"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Maybe.Then``2(Wooga.Lambda.Control.Monad.Maybe{``0},Wooga.Lambda.Control.Monad.Maybe{``1})">
+            <summary>
+            When m is Maybe.Just it returns n, otherwise Maybe.Nothing
+            </summary>
+            <typeparam name="TInput"></typeparam>
+            <typeparam name="TOutput"></typeparam>
+            <param name="m"></param>
+            <param name="n"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Maybe.Map``2(Wooga.Lambda.Control.Monad.Maybe{``0},System.Func{``0,``1})">
+            <summary>
+            When m is Maybe.Just it applies f to the value, otherwise Maybe.Nothing
+            </summary>
+            <typeparam name="TInput"></typeparam>
+            <typeparam name="TOutput"></typeparam>
+            <param name="m"></param>
+            <param name="f"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Maybe.Just``1(``0)">
+            <summary>
+            Constructs Maybe.Just with v
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="v"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Maybe.Nothing``1">
+            <summary>
+            Constructs Maybe.Nothing
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Maybe.ValueOr``1(Wooga.Lambda.Control.Monad.Maybe{``0},``0)">
+            <summary>
+            When m is Maybe.Just returns value, otherwise dflt
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="m"></param>
+            <param name="dflt"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Maybe.ValueOr``1(Wooga.Lambda.Control.Monad.Maybe{``0},System.Func{``0})">
+            <summary>
+            When m is Maybe.Just returns value, otherwise result of dflt
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="m"></param>
+            <param name="dflt"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Maybe.IsJust``1(Wooga.Lambda.Control.Monad.Maybe{``0})">
+            <summary>
+            True when m is Maybe.Just
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="m"></param>
+            <returns></returns></member>
+        <member name="M:Wooga.Lambda.Control.Monad.Maybe.IsNothing``1(Wooga.Lambda.Control.Monad.Maybe{``0})">
+            <summary>
+            True when m is Maybe.Nothing
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="m"></param>
+            <returns></returns></member>
+        <member name="T:Wooga.Lambda.Data.Unit">
+            <summary>
+            Represents void as a value type
+            </summary></member>
+    </members>
+</doc>
