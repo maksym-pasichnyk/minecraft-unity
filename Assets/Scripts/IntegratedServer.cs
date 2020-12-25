@@ -1,43 +1,15 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 using UnityEngine;
 
 public class IntegratedServer : MinecraftServer
 {
-    private delegate void ServerTask();
-    
-    private Thread _thisThread;
+    private readonly Thread _thisThread;
     private ServerWorld _serverWorld;
-    private Task _task = Task.CompletedTask;
-
-    private ConcurrentQueue<ServerTask> _queue = new ConcurrentQueue<ServerTask>();
-    
     private bool _running = true;
 
-    private TcpListener _network;
-    private TcpClient _client;
-
-    // private TcpClient _tcp;
-    
     public IntegratedServer(Thread thisThread)
     {
         _thisThread = thisThread;
-
-        _network = new TcpListener(IPAddress.Any, 8080);
-        _network.Start();
-        
-        _network.BeginAcceptTcpClient(NetworkCallback, null);
-
-        // _tcp = new TcpClient();
-    }
-
-    private void NetworkCallback(IAsyncResult result)
-    {
-        _client = _network.EndAcceptTcpClient(result);
     }
 
     private void CreateWorld()
@@ -76,6 +48,9 @@ public class IntegratedServer : MinecraftServer
     public override void StopServer()
     {
         _running = false;
+        _thisThread.Join();
+        
+        Debug.Log("Stop integrated server");
     }
     
     private void Update()
