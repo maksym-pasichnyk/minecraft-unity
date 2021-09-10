@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ChunkSection
 {
-    public readonly Tile[,,] Tiles = new Tile[16, 16, 16];
+    public readonly BlockState[,,] States = new BlockState[16, 16, 16];
     private int _blockRefCount = 0;
 
     public int BlockRefCount => _blockRefCount;
@@ -11,18 +11,18 @@ public class ChunkSection
     public bool IsEmpty() => _blockRefCount == 0;
 
 
-    public void SetTile(int x, int y, int z, Tile tile)
+    public void SetTile(int x, int y, int z, BlockState state)
     {
         try
         {
-            if (Tiles[x, y, z] == Tile.Air)
+            if (States[x, y, z] == BlockStates.Air)
             {
                 _blockRefCount--;
             }
 
-            Tiles[x, y, z] = tile;
+            States[x, y, z] = state;
 
-            if (Tiles[x, y, z] != Tile.Air)
+            if (States[x, y, z] != BlockStates.Air)
             {
                 _blockRefCount++;
             }
@@ -33,9 +33,9 @@ public class ChunkSection
         }
     }
 
-    public Tile GetTile(int x, int y, int z)
+    public BlockState GetBlockState(int x, int y, int z)
     {
-        return Tiles[x, y, z] ?? Tile.Air;
+        return States[x, y, z] ?? BlockStates.Air;
     }
     
     public static bool IsEmpty(ChunkSection section)
@@ -58,13 +58,13 @@ public class Chunk
     {
     }
 
-    public void SetTile(int x, int y, int z, Tile tile)
+    public void SetBlockState(int x, int y, int z, BlockState state)
     {
         try
         {
             var section = Sections[y >> 4] ?? (Sections[y >> 4] = new ChunkSection());
 
-            section.Tiles[x & 15, y & 15, z & 15] = tile;
+            section.States[x & 15, y & 15, z & 15] = state;
         }
         catch (Exception e)
         {
@@ -72,17 +72,17 @@ public class Chunk
         }
     }
 
-    public Tile GetTile(int x, int y, int z)
+    public BlockState GetBlockState(int x, int y, int z)
     {
         if (y < 0 || y > 255)
         {
-            return Tile.Air;
+            return BlockStates.Air;
         }
 
         var section = Sections[y >> 4];
         return section != null
-            ? section.GetTile(x & 15, y & 15, z & 15)
-            : Tile.Air;
+            ? section.GetBlockState(x & 15, y & 15, z & 15)
+            : BlockStates.Air;
     }
 
     public bool IsEmptyBetween(int startY, int endY) {

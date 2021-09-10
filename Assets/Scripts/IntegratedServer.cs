@@ -15,18 +15,19 @@ public class IntegratedServer : MinecraftServer
     private void CreateWorld()
     {
         _serverWorld = new ServerWorld();
+        
         CreateSpawnPosition();
     }
 
     private void CreateSpawnPosition()
     {
-        for (int x = -3; x <= 3; x++)
-        {
-            for (int z = -3; z <= 3; z++)
-            {
-                _serverWorld.GetChunk(x, z);
-            }
-        }
+        // for (int x = -3; x <= 3; x++)
+        // {
+        //     for (int z = -3; z <= 3; z++)
+        //     {
+        //         _serverWorld.GetChunk(x, z);
+        //     }
+        // }
     }
 
     private void CreateChunks(int x, int y)

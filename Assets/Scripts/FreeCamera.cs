@@ -1,40 +1,35 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class FreeCamera : MonoBehaviour
+public class FreeCamera
 {
-    public float mainSpeed = 5.0f;
-    public float shiftAdd = 25f;
-    public float maxShift = 100.0f;
-    public float camSens = 0.25f;
-    public bool rotateOnlyIfMousedown = true;
-    public bool movementStaysFlat = false;
+    private float _mainSpeed = 5.0f;
+    private float _shiftAdd = 25f;
+    private float _maxShift = 100.0f;
+    private float _camSens = 0.25f;
+    private bool _rotateOnlyIfMousedown = true;
+    private bool _movementStaysFlat = false;
 
-    private Vector3 lastMouse = new Vector3(255, 255, 255);
-    private float totalRun = 1.0f;
+    private Vector3 _lastMouse = new Vector3(255, 255, 255);
+    private float _totalRun = 1.0f;
 
-    private Transform _transform;
+    public delegate void RotateCamera(Vector2 delta);
+    public delegate void TranslateCamera(Vector3 velocity);
 
-    private void Awake()
-    {
-        _transform = transform;
-    }
+    public event RotateCamera OnRotateCamera;
+    public event TranslateCamera OnTranslateCamera;
 
-    private void Update()
+    public void Update(float deltaTime)
     {
         if (Input.GetMouseButtonDown(0))
         {
-            lastMouse = Input.mousePosition; // $CTK reset when we begin
+            _lastMouse = Input.mousePosition; // $CTK reset when we begin
         }
 
-        if (!rotateOnlyIfMousedown || rotateOnlyIfMousedown && Input.GetMouseButton(0))
+        if (!_rotateOnlyIfMousedown || _rotateOnlyIfMousedown && Input.GetMouseButton(0))
         {
-            lastMouse = Input.mousePosition - lastMouse;
-            lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0);
-            var eulerAngles = _transform.eulerAngles;
-            lastMouse = new Vector3(eulerAngles.x + lastMouse.x, eulerAngles.y + lastMouse.y, 0);
-            _transform.eulerAngles = lastMouse;
-            lastMouse = Input.mousePosition;
+            _lastMouse = Input.mousePosition - _lastMouse;
+            OnRotateCamera?.Invoke(new Vector2(-_lastMouse.y * _camSens, _lastMouse.x * _camSens));
+            _lastMouse = Input.mousePosition;
             //Mouse  camera angle done.  
         }
 
@@ -42,32 +37,34 @@ public class FreeCamera : MonoBehaviour
         var velocity = GetBaseInput();
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            totalRun += Time.deltaTime;
-            velocity *= totalRun * shiftAdd;
-            velocity.x = Mathf.Clamp(velocity.x, -maxShift, maxShift);
-            velocity.y = Mathf.Clamp(velocity.y, -maxShift, maxShift);
-            velocity.z = Mathf.Clamp(velocity.z, -maxShift, maxShift);
+            _totalRun += deltaTime;
+            velocity *= _totalRun * _shiftAdd;
+            velocity.x = Mathf.Clamp(velocity.x, -_maxShift, _maxShift);
+            velocity.y = Mathf.Clamp(velocity.y, -_maxShift, _maxShift);
+            velocity.z = Mathf.Clamp(velocity.z, -_maxShift, _maxShift);
         }
         else
         {
-            totalRun = Mathf.Clamp(totalRun * 0.5f, 1f, 1000f);
-            velocity *= mainSpeed;
+            _totalRun = Mathf.Clamp(_totalRun * 0.5f, 1f, 1000f);
+            velocity *= _mainSpeed;
         }
 
-        velocity *= Time.deltaTime;
-        var newPosition = _transform.position;
-        if (Input.GetKey(KeyCode.Space) || movementStaysFlat && !(rotateOnlyIfMousedown && Input.GetMouseButton(1)))
-        {
-            _transform.Translate(velocity);
-            var position = _transform.position;
-            newPosition.x = position.x;
-            newPosition.z = position.z;
-            _transform.position = newPosition;
-        }
-        else
-        {
-            _transform.Translate(velocity);
-        }
+        velocity *= deltaTime;
+        // var newPosition = _transform.position;
+        // if (Input.GetKey(KeyCode.Space) || movementStaysFlat && !(rotateOnlyIfMousedown && Input.GetMouseButton(1)))
+        // {
+        //     _transform.Translate(velocity);
+        //     var position = _transform.position;
+        //     newPosition.x = position.x;
+        //     newPosition.z = position.z;
+        //     _transform.position = newPosition;
+        // }
+        // else
+        // {
+        //     _transform.Translate(velocity);
+        // }
+        
+        OnTranslateCamera?.Invoke(velocity);
     }
 
     private Vector3 GetBaseInput()

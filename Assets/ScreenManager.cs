@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ScreenManager : MonoBehaviour
 {
-    [SerializeField] private MainMenuScreen _mainMenuScreen;
-    [SerializeField] private MultiplayerScreen _multiplayerScreen;
+    [SerializeField] private Screen _mainMenuScreen;
+    [SerializeField] private Screen _multiplayerScreen;
 
     private IScreen _currentScreen;
 
@@ -15,26 +14,9 @@ public class ScreenManager : MonoBehaviour
         _currentScreen?.Show();
     }
 
-    public void ShowMainMenu()
-    {
-        SetScreen(_mainMenuScreen);
-    }
+    public void ShowMainMenu() => SetScreen(_mainMenuScreen);
 
-    public void ShowGameMenu()
-    {
-        SetScreen(null);
-    }
+    public void ShowGameMenu() => SetScreen(null);
 
-    public void ShowMultiplayerScreen()
-    {
-        SetScreen(_multiplayerScreen);
-    }
-
-    private void Update()
-    {
-        // if (_currentScreen == null)
-        // {
-        //     SetScreen(_mainMenuScreen);
-        // }
-    }
+    public void ShowMultiplayerScreen() => SetScreen(_multiplayerScreen);
 }

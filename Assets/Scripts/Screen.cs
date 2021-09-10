@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Screen : MonoBehaviour, IScreen
 {
@@ -20,8 +18,5 @@ public abstract class Screen : MonoBehaviour, IScreen
         Setup();
     }
 
-    private void Update()
-    {
-        Tick();
-    }
+    private void Update() => Tick();
 }
